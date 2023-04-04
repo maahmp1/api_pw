@@ -4,3 +4,5 @@ valorconta decimal (13,2),
 dataconta date,
 idcliente int not null
 );
+
+
