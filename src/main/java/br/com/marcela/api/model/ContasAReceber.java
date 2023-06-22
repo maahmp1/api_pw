@@ -2,6 +2,7 @@ package br.com.marcela.api.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ public class ContasAReceber {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Integer id;
-    private Date dataconta;
+    private LocalDate dataconta;
     private BigDecimal valorconta;
 
     @ManyToOne
@@ -42,11 +43,11 @@ public class ContasAReceber {
         this.id = id;
     }
 
-    public Date getDataconta() {
+    public LocalDate getDataconta() {
         return dataconta;
     }
 
-    public void setDataconta(Date dataconta) {
+    public void setDataconta(LocalDate dataconta) {
         this.dataconta = dataconta;
     }
 

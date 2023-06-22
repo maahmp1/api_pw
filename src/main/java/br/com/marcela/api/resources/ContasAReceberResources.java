@@ -9,8 +9,5 @@ import java.util.List;
 
 public class ContasAReceberResources {
 
-    public List<ContasAReceber> listarTodosContasAReceber(){
-        
-    }
 
 }
