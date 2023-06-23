@@ -1,5 +1,7 @@
 package br.com.marcela.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -14,7 +16,8 @@ public class Cliente {
 
     private String nomecliente;
 
-    @ManyToOne
+    @JsonIgnore
+    @OneToMany
     @JoinColumn(name = "cliente")
     private ContasAReceber contasAReceber;
 

@@ -20,7 +20,6 @@ public class ClienteResources {
 
     private ClienteRepository clienteRepository;
 
-
     @GetMapping("/todos")
     public List<Cliente> listarTodosClientes(){
     return clienteRepository.findAll();
