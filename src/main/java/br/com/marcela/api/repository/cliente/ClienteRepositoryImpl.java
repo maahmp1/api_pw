@@ -74,7 +74,6 @@ public class ClienteRepositoryImpl implements ClienteRepositoryQuery {
                     "%" + clienteFilter.getNomecliente().toLowerCase() + "%" ));
         }
 
-
         return predicates.toArray(new Predicate[predicates.size()]);
     }
 }
