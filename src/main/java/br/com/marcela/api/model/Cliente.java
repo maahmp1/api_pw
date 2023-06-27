@@ -3,6 +3,8 @@ package br.com.marcela.api.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,9 +19,8 @@ public class Cliente {
     private String nomecliente;
 
     @JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "cliente")
-    private ContasAReceber contasAReceber;
+    @OneToMany(mappedBy = "cliente")
+    private List<ContasAReceber> clientecontas = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -50,11 +51,11 @@ public class Cliente {
         this.nomecliente = nomecliente;
     }
 
-    public ContasAReceber getContasAReceber() {
-        return contasAReceber;
+    public List<ContasAReceber> getClientecontas() {
+        return clientecontas;
     }
 
-    public void setContasAReceber(ContasAReceber contasAReceber) {
-        this.contasAReceber = contasAReceber;
+    public void setClientecontas(List<ContasAReceber> clientecontas) {
+        this.clientecontas = clientecontas;
     }
 }

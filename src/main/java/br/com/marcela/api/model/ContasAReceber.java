@@ -19,7 +19,7 @@ public class ContasAReceber {
     private BigDecimal valorconta;
 
     @ManyToOne
-    @JoinColumn(name = "idconta")
+    @JoinColumn(name = "idcliente")
     private Cliente cliente;
 
     public Integer getId() {
