@@ -7,10 +7,10 @@ import java.time.LocalDate;
 
 public class ContasAReceberFilter {
 
-    @DateTimeFormat(pattern = "yyyy/MM/dd")
-
-    private LocalDate dataconta;
     private BigDecimal valorconta;
+
+    @DateTimeFormat(pattern = "yyyy/MM/dd")
+    private LocalDate dataconta;
     private String nomecliente;
 
     public LocalDate getDataconta() {

@@ -18,25 +18,8 @@ public class ContasAReceber {
     private LocalDate dataconta;
     private BigDecimal valorconta;
 
-    @ManyToOne
-    @JoinColumn(name = "idcliente")
-    private Cliente cliente;
-
     public Integer getId() {
         return id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ContasAReceber that = (ContasAReceber) o;
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 
     public void setId(Integer id) {
@@ -58,6 +41,23 @@ public class ContasAReceber {
     public void setValorconta(BigDecimal valorconta) {
         this.valorconta = valorconta;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ContasAReceber that = (ContasAReceber) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "idcliente")
+    private Cliente cliente;
 
     public Cliente getCliente() {
         return cliente;

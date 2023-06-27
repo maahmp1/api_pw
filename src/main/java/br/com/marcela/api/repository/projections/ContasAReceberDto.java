@@ -10,6 +10,13 @@ public class ContasAReceberDto {
     private BigDecimal valorconta;
     private String nomecliente;
 
+    public ContasAReceberDto(Integer id, LocalDate dataconta, BigDecimal valorconta, String nomecliente) {
+        this.id = id;
+        this.dataconta = dataconta;
+        this.valorconta = valorconta;
+        this.nomecliente = nomecliente;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -42,12 +49,6 @@ public class ContasAReceberDto {
         this.nomecliente = nomecliente;
     }
 
-    public ContasAReceberDto(Integer id, LocalDate dataconta, BigDecimal valorconta, String nomecliente) {
-        this.id = id;
-        this.dataconta = dataconta;
-        this.valorconta = valorconta;
-        this.nomecliente = nomecliente;
-    }
 
 
 

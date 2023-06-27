@@ -4,7 +4,6 @@ import br.com.marcela.api.model.ContasAReceber;
 import br.com.marcela.api.repository.filter.ContasAReceberFilter;
 import br.com.marcela.api.repository.projections.ContasAReceberDto;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Criteria;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -18,55 +17,52 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class ContasAReceberImpl implements ContasAReceberQuery {
+public class ContasAReceberRepositoryImpl implements ContasAReceberRepositoryQuery{
 
     @PersistenceContext
     private EntityManager manager;
 
     @Override
-    public Page<ContasAReceberDto> filtrar(ContasAReceberFilter contasAReceberFilter, Pageable pageable){
-
+    public Page<ContasAReceberDto> filtrar(ContasAReceberFilter contasAReceberFilter, Pageable pageable) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<ContasAReceberDto> criteria = builder.createQuery(ContasAReceberDto.class);
         Root<ContasAReceber> root = criteria.from(ContasAReceber.class);
 
         criteria.select(builder.construct(ContasAReceberDto.class,
-
                 root.get("id"),
                 root.get("dataconta"),
                 root.get("valorconta"),
-                root.get("cliente").get("nomecliente")
-                ));
+                root.get("cliente").get("nomecliente")));
 
         Predicate[] predicates = criarRestricoes(contasAReceberFilter, builder, root);
         criteria.where(predicates);
-        criteria.orderBy((builder.asc(root.get("valorconta"))));
+        criteria.orderBy(builder.asc(root.get("valorconta")));
+
 
         TypedQuery<ContasAReceberDto> query = manager.createQuery(criteria);
-        adicionarRestricoesPaginacao(query,pageable);
+        adicionaRestricoespPaginas(query, pageable);
 
-        return new PageImpl<>(query.getResultList(),pageable, total(contasAReceberFilter));
+
+        return new PageImpl<>(query.getResultList(), pageable, total(contasAReceberFilter));
     }
 
     private Long total(ContasAReceberFilter contasAReceberFilter){
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        Root<ContasAReceber> root = criteria.from(ContasAReceber.class);
 
-    CriteriaBuilder builder = manager.getCriteriaBuilder();
-    CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-    Root<ContasAReceber> root = criteria.from(ContasAReceber.class);
+        Predicate[] predicates = criarRestricoes(contasAReceberFilter, builder, root);
+        criteria.where(predicates);
+        criteria.orderBy(builder.asc(root.get("valorconta")));
 
-    Predicate[] predicates = criarRestricoes(contasAReceberFilter, builder, root);
-    criteria.where(predicates);
-    criteria.orderBy(builder.asc(root.get("valorconta")));
+        criteria.select(builder.count(root));
 
-    criteria.select(builder.count(root));
+        return manager.createQuery(criteria).getSingleResult();
 
-       return manager.createQuery(criteria).getSingleResult();
     }
 
-
-    private void adicionarRestricoesPaginacao(TypedQuery<?> query, Pageable pageable) {
+    private void adicionaRestricoespPaginas(TypedQuery<?> query, Pageable pageable) {
         int paginaAtual = pageable.getPageNumber();
         int totalRegistrosPorPagina = pageable.getPageSize();
         int primeiroRegistroPágina = paginaAtual * totalRegistrosPorPagina;
@@ -75,18 +71,16 @@ public class ContasAReceberImpl implements ContasAReceberQuery {
         query.setMaxResults(totalRegistrosPorPagina);
     }
 
-
-
     private Predicate[] criarRestricoes(ContasAReceberFilter contasAReceberFilter, CriteriaBuilder builder, Root<ContasAReceber> root) {
-
         List<Predicate> predicates = new ArrayList<>();
 
         if(contasAReceberFilter.getValorconta() != null){
             predicates.add(builder.equal(root.get("valorconta"), contasAReceberFilter.getValorconta()));
         }
-        if (contasAReceberFilter.getDataconta() !=null){
-            predicates.add(builder.greaterThanOrEqualTo(root.get("dataconta"),contasAReceberFilter.getDataconta()));
+        if(contasAReceberFilter.getDataconta() != null){
+            predicates.add(builder.greaterThanOrEqualTo(root.get("dataconta"), contasAReceberFilter.getDataconta()));
         }
+
         if (!StringUtils.isEmpty(contasAReceberFilter.getNomecliente())){
             predicates.add(builder.like(builder.lower(root.get("cliente").get("nomecliente")),
                     "%" + contasAReceberFilter.getNomecliente().toLowerCase() + "%"));
@@ -94,4 +88,5 @@ public class ContasAReceberImpl implements ContasAReceberQuery {
 
         return predicates.toArray(new Predicate[predicates.size()]);
     }
-}
+
+    }
